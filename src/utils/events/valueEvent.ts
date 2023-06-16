@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ValueEvent } from "../../server";
+import { ValueEvent } from "../types";
 
 
 export async function checkValueEvent(event: ValueEvent): Promise<boolean> {
@@ -33,4 +33,17 @@ export async function checkValueEvent(event: ValueEvent): Promise<boolean> {
         }
     }
     return false;
+}
+
+export async function createValueEvent(toAccount: string, fromAccount: string, tokenAddress: string, amount: number, reward: number, rewardTokenAddress: string, isRewardSol: boolean, isSol: boolean, negative: boolean, time: number) {
+    try {
+        if ((toAccount || fromAccount) && (tokenAddress || isSol) && (rewardTokenAddress || isRewardSol) && time > 0) {
+
+        } else {
+            return null;
+        }
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
 }
