@@ -6,7 +6,7 @@ export type MovementEvent = {
     payee?: string;
     amount: number;
     reward: number;
-    changeType: "dec" | "acc";
+    direction: "decrease" | "increase";
     tokenAddress: string;
     rewardTokenAddress: string;
     onEnd: () => any;
@@ -18,7 +18,7 @@ export type ValueEvent = {
     address: string;
     amount: number;
     reward: number;
-    direction: "below" | "above";
+    direction: "decrease" | "increase";
     tokenAddress: string;
     rewardTokenAddress: string;
     onEnd: () => any;

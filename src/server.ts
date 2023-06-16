@@ -4,12 +4,16 @@ import { checkMovementEvent, createMovementEvent } from './utils/events/movement
 import { getTransactionHistory } from './utils/utils';
 import { Event, MovementEvent, ValueEvent } from './utils/types';
 import { createValueEvent } from './utils/events/valueEvent';
+import * as cors from 'cors';
 require('dotenv').config();
 //import { getTransactionHistory, testNetwork } from './utils/utils';
 
 
 const app = express();
-const port = 3000;
+app.use(cors());
+app.use(express.json());
+
+const port = 3005;
 const tracked: Event[] = [];
 
 async function server() {
@@ -31,13 +35,14 @@ async function server() {
 
 app.post("/create", async (req, res) => {
   try {
+    console.log("created a contract");
     const { type, toAccount, fromAccount, tokenAddress, amount, reward, rewardTokenAddress, isRewardSol, isSol, negative, time } = req.body;
     if (type === "Value") {
       const event: ValueEvent | null = await createValueEvent(toAccount, fromAccount, tokenAddress, Number(amount), Number(reward), rewardTokenAddress, isRewardSol, isSol, negative, Number(time));
       if (event) {
         res.status(200).json({ message: "success" });
       } else {
-        res.status(403).json({ message: "Invalid input" });
+        res.status(404).json({ message: "Invalid input" });
       }
 
     } else if (type === "Movement") {
@@ -45,7 +50,7 @@ app.post("/create", async (req, res) => {
       if (event) {
         res.status(200).json({ message: "success" });
       } else {
-        res.status(403).json({ message: "Invalid input" });
+        res.status(404).json({ message: "Invalid input" });
       }
     } else {
       res.status(404).json({ message: "Method not found" });

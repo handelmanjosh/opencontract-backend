@@ -1,9 +1,7 @@
 import { MovementEvent } from "../types";
 import { getAnyTokenHistory, getTransactionHistory } from "../utils";
+import prisma from "../../../prisma/seed";
 
-export async function createTransactionEvent() {
-
-}
 export async function checkMovementEvent(event: MovementEvent): Promise<boolean> {
     let func: (...args: any[]) => any;
     if (event.tokenAddress == "SOL") {
@@ -57,7 +55,7 @@ export async function checkMovementEvent(event: MovementEvent): Promise<boolean>
     } else {
         return true;
     }
-    if (event.changeType == "dec") {
+    if (event.direction == "decrease") {
         if (event.amount > 0) {
             return true;
         }
@@ -69,7 +67,7 @@ export async function checkMovementEvent(event: MovementEvent): Promise<boolean>
     return false;
 }
 
-
+//rpc websocket api
 export async function createMovementEvent(toAccount: string, fromAccount: string, tokenAddress: string, amount: number, reward: number, rewardTokenAddress: string, isRewardSol: boolean, isSol: boolean, negative: boolean, time: number) {
     try {
         if ((tokenAddress || isSol) && (rewardTokenAddress || isRewardSol) && (toAccount || fromAccount)) {
@@ -79,12 +77,24 @@ export async function createMovementEvent(toAccount: string, fromAccount: string
                 payee: toAccount,
                 amount,
                 reward,
-                changeType: negative ? "dec" : "acc",
+                direction: negative ? "decrease" : "increase",
                 tokenAddress: tokenAddress || "SOL",
                 rewardTokenAddress: rewardTokenAddress || "SOL",
                 onEnd: () => { },
                 time: time
             };
+            await prisma.movementEvent.create({
+                data: {
+                    amount: movementEvent.amount,
+                    direction: movementEvent.direction,
+                    payee: movementEvent.payee,
+                    payer: movementEvent.payer,
+                    reward: movementEvent.reward,
+                    rewardTokenAddress: movementEvent.rewardTokenAddress,
+                    time: movementEvent.time,
+                    tokenAddress: movementEvent.tokenAddress
+                }
+            });
             return movementEvent;
         } else {
             return null;

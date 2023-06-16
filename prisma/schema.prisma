@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model MovementEvent {
+  id                 String  @id @default(uuid())
+  payer              String?
+  payee              String?
+  amount             Float
+  reward             Float
+  direction          String
+  tokenAddress       String
+  rewardTokenAddress String
+  time               Int
+}
+
+model ValueEvent {
+  id                 String @id @default(uuid())
+  address            String
+  amount             Float
+  reward             Float
+  direction          String
+  tokenAddress       String
+  rewardTokenAddress String
+  time               Int
+}
