@@ -57,7 +57,8 @@ export async function createValueEvent(toAccount: string, fromAccount: string, t
                     reward: valueEvent.reward,
                     rewardTokenAddress: valueEvent.rewardTokenAddress,
                     time: valueEvent.time,
-                    tokenAddress: valueEvent.tokenAddress
+                    tokenAddress: valueEvent.tokenAddress,
+
                 }
             });
             console.log(valueEvent);

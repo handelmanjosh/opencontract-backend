@@ -92,7 +92,7 @@ export async function createMovementEvent(toAccount: string, fromAccount: string
                     reward: movementEvent.reward,
                     rewardTokenAddress: movementEvent.rewardTokenAddress,
                     time: movementEvent.time,
-                    tokenAddress: movementEvent.tokenAddress
+                    tokenAddress: movementEvent.tokenAddress,
                 }
             });
             return movementEvent;

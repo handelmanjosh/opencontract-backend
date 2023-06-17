@@ -32,3 +32,22 @@ model ValueEvent {
   rewardTokenAddress String
   time               Int
 }
+
+model BountyEvent {
+  id                 String    @id @default(uuid())
+  addresses          Address[]
+  amount             Float
+  numberOfContracts  Int
+  reward             Float
+  direction          String
+  tokenAddress       String
+  rewardTokenAddress String
+  time               Int
+}
+
+model Address {
+  id            Int          @id @default(autoincrement())
+  BountyEvent   BountyEvent? @relation(fields: [bountyEventId], references: [id])
+  bountyEventId String?
+  address       String
+}

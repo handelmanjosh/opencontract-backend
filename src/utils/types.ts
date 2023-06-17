@@ -24,3 +24,16 @@ export type ValueEvent = {
     onEnd: () => any;
     time: number;
 };
+
+export type BountyEvent = {
+    type: "Bounty";
+    addresses: string[];
+    numberOfContracts: number;
+    amount: number;
+    reward: number;
+    direction: "increase" | "decrease";
+    tokenAddress: string;
+    rewardTokenAddress: string;
+    onEnd: () => any;
+    time: number;
+};
